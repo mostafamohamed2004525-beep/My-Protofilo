@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap&display=optional");
+
+/* ── Base reset ───────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg text-ink font-body antialiased overflow-x-hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { @apply bg-blue-mid text-blue-hi; }
+
+  :focus-visible {
+    @apply outline-2 outline-border-focus outline-offset-2 rounded-sm;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-section; }
+  ::-webkit-scrollbar-thumb { @apply bg-border-hi rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-ghost; }
+
+  /* Anchor reset */
+  a { color: inherit; text-decoration: none; }
+
+  /* Section scroll offset */
+  section[id] { scroll-margin-top: 72px; }
+}
+
+/* ── Component layer ──────────────────────────────────────────── */
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-md
+           bg-blue text-white font-body text-sm font-semibold
+           tracking-tight leading-none select-none
+           transition-all duration-fast ease-spring
+           shadow-blue hover:-translate-y-0.5
+           hover:bg-blue-hi hover:shadow-xl
+           active:translate-y-0
+           focus-visible:shadow-focus;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: "";
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(135deg, rgba(255,255,255,.18) 0%, transparent 55%);
+    border-radius: inherit;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-7 py-[11px] rounded-md
+           bg-surface text-ink-2 font-body text-sm font-semibold
+           border border-border-hi tracking-tight leading-none select-none
+           transition-all duration-fast ease-spring shadow-sm
+           hover:border-blue hover:text-blue hover:bg-blue-lt hover:-translate-y-px hover:shadow-md
+           active:translate-y-0
+           focus-visible:shadow-focus;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-7 py-[11px] rounded-md
+           bg-transparent text-muted font-body text-sm font-semibold
+           border border-dashed border-border tracking-tight leading-none select-none
+           transition-all duration-fast ease-spring
+           hover:text-blue hover:border-blue/40 hover:bg-blue-lt;
+  }
+
+  /* ── Cards ───────────────────────────────────────────── */
+  .card {
+    @apply bg-surface border border-border rounded-xl shadow-card
+           transition-all duration-base ease-spring will-change-transform;
+  }
+  .card:hover { @apply shadow-xl border-border-hi -translate-y-1; }
+
+  .card-flat {
+    @apply bg-surface border border-border rounded-lg shadow-xs
+           transition-all duration-base ease-spring;
+  }
+  .card-flat:hover { @apply shadow-lg border-border-hi -translate-y-0.5; }
+
+  /* ── Chips ───────────────────────────────────────────── */
+  .chip {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full
+           border border-border bg-section text-sub
+           font-mono text-[11.5px] font-medium tracking-wide
+           transition-all duration-fast ease-spring whitespace-nowrap;
+  }
+  .chip:hover { @apply border-blue/40 text-blue bg-blue-lt -translate-y-px; }
+
+  /* ── Section eyebrow ─────────────────────────────────── */
+  .eyebrow {
+    @apply flex items-center gap-2.5 text-[10px] font-bold tracking-[.14em]
+           uppercase text-blue font-body;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply block w-5 h-0.5 rounded-full flex-shrink-0;
+    background: linear-gradient(90deg, #2563EB, #4338CA);
+  }
+
+  /* ── Section headline ────────────────────────────────── */
+  .section-headline {
+    @apply text-display-lg font-display font-semibold text-ink;
+  }
+
+  /* ── Gradient text ───────────────────────────────────── */
+  .grad-text {
+    @apply bg-gradient-brand bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: shimmer 5s linear infinite;
+  }
+  .grad-text-2 {
+    @apply bg-gradient-brand-2 bg-clip-text text-transparent;
+  }
+
+  /* ── Nav link ────────────────────────────────────────── */
+  .nav-link {
+    @apply text-[13.5px] font-medium text-muted px-2.5 py-1.5 rounded-sm
+           tracking-tight transition-all duration-fast ease-spring;
+  }
+  .nav-link:hover { @apply text-ink bg-section; }
+  .nav-link.active { @apply text-blue bg-blue-lt; }
+
+  /* ── Progress track ──────────────────────────────────── */
+  .progress-track { @apply h-1.5 bg-section rounded-full overflow-hidden; }
+  .progress-fill {
+    @apply h-full rounded-full transition-[width] duration-[1100ms] ease-spring;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: "";
+    @apply absolute top-0 right-0 bottom-0 w-8;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.35));
+  }
+
+  /* ── Input ───────────────────────────────────────────── */
+  .form-input {
+    @apply w-full px-4 py-[13px] rounded-md border border-border bg-surface
+           text-ink text-sm font-body leading-normal
+           transition-[border-color,box-shadow] duration-fast outline-none
+           placeholder:text-subtle;
+  }
+  .form-input:hover { @apply border-border-hi; }
+  .form-input:focus { @apply border-border-focus shadow-focus; }
+
+  /* ── Reveal animation helper ─────────────────────────── */
+  .reveal {
+    @apply opacity-0 translate-y-5;
+    transition: opacity .6s cubic-bezier(.22,1,.36,1),
+                transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible { @apply opacity-100 translate-y-0; }
+}
+
+/* ── Utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  .gpu      { transform: translateZ(0); will-change: transform; }
+  .text-balance { text-wrap: balance; }
+
+  /* Delay helpers */
+  .delay-50  { transition-delay: 50ms; }
+  .delay-100 { transition-delay: 100ms; }
+  .delay-150 { transition-delay: 150ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-250 { transition-delay: 250ms; }
+  .delay-300 { transition-delay: 300ms; }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ── Print ────────────────────────────────────────────────────── */
+@media print {
+  nav, footer { display: none; }
+  .card, .card-flat { box-shadow: none !important; border: 1px solid #ddd !important; }
+}
